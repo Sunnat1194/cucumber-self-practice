@@ -1,6 +1,7 @@
 package com.cybertek.step_definitions;
 
 import com.cybertek.pages.GoogleSearchPage;
+import com.cybertek.utilities.BrowserUtils;
 import com.cybertek.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -42,6 +43,23 @@ public class Google_StepDefinition {
       String expectedInTitle = "apple";
 
         Assert.assertTrue(actualTitle.contains(expectedInTitle));
+        Driver.closeDriver();
+    }
+
+    @When("User search for {string}")
+    public void userSearchFor(String string) {
+        GoogleSearchPage googleSearchPage = new GoogleSearchPage();
+        googleSearchPage.searchBar.sendKeys(string+ Keys.ENTER);
+    }
+
+    @Then("User should see {string} in the title")
+    public void userShouldSeeInTheTitle(String string) {
+        String actualTitle = Driver.getDriver().getTitle();
+        String expectedInTitle = string;
+
+        Assert.assertTrue(actualTitle.contains(expectedInTitle));
+        BrowserUtils.sleep(10);
+        Driver.closeDriver();
 
     }
 }
